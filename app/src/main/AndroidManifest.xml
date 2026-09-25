@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- 包可见性：Android 11+ 默认只看得到自己，这里要看全，否则「列已安装包」和
+         安装广播都会被系统裁掉。侧载工具，不走 Play 的 QUERY_ALL_PACKAGES 审核。 -->
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"
+        tools:ignore="QueryAllPackagesPermission" />
+
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <!-- 申请进电池优化白名单：否则 Doze 下轮询会被压到几十分钟一次，装上来的东西迟迟不被摘掉 -->
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+    <!-- 调 PackageInstaller.uninstall 需要它（普通权限）；真正的「静默」取决于调用者是不是设备所有者 -->
+    <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES" />
+    <!-- Dhizuku 的客户端权限（它的 AAR 里也声明了，这里写明便于一眼看清依赖） -->
+    <uses-permission android:name="com.rosan.dhizuku.permission.API" />
+
+    <!-- Android 11+ 要显式声明才能查到管理器装没装 -->
+    <queries>
+        <package android:name="roro.stellar.manager" />
+        <package android:name="com.rosan.dhizuku" />
+        <!-- su 管理器：装着就说明这台机器有 root（KernelSU 的 su 是内核拦 execve 提供的，
+             磁盘上找不到文件，只能靠管理器应用反推「这条路存在」） -->
+        <package android:name="me.weishu.kernelsu" />
+        <package android:name="com.topjohnwu.magisk" />
+        <package android:name="me.bmax.apatch" />
+    </queries>
+
+    <application
+        android:name=".SentinelApp"
+        android:allowBackup="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Sentinel">
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:configChanges="orientation|screenSize|keyboardHidden|uiMode">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- Stellar API 要求应用声明这个 provider（authority 必须是 ${applicationId}.stellar），
+             权限校验和 binder 传递都走它 -->
+        <provider
+            android:name="roro.stellar.StellarProvider"
+            android:authorities="${applicationId}.stellar"
+            android:enabled="true"
+            android:exported="true"
+            android:multiprocess="false"
+            android:permission="android.permission.INTERACT_ACROSS_USERS_FULL" />
+
+        <!-- Stellar 要求声明这个 meta-data 才会把权限通道打开（值是权限名，逗号分隔） -->
+        <meta-data
+            android:name="roro.stellar.permissions"
+            android:value="stellar" />
+
+        <service
+            android:name=".service.MonitorService"
+            android:exported="false"
+            android:foregroundServiceType="specialUse">
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="按用户配置的包名列表监听应用安装并自动卸载命中的应用" />
+        </service>
+
+        <receiver
+            android:name=".service.BootReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+            </intent-filter>
+        </receiver>
+    </application>
+
+</manifest>

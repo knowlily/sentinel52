@@ -1,0 +1,16 @@
+# 构建产物与本地配置
+.gradle/
+.kotlin/
+build/
+app/build/
+local.properties
+keystore.properties
+keystore/
+*.jks
+*.keystore
+.idea/
+*.iml
+.DS_Store
+
+# 已经签名的 APK 走 GitHub Release 发布，不进版本库
+dist/

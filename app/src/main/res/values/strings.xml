@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">计算器</string>
+
+    <!-- 通知渠道 -->
+    <string name="channel_name">包名监控</string>
+    <string name="channel_desc">监控指定包名，命中后自动卸载</string>
+    <string name="channel_alert_name">特权后端未就绪</string>
+    <string name="channel_alert_desc">命中规则但当前没有可用的特权后端时提醒一次</string>
+
+    <!-- 常驻通知 -->
+    <string name="notif_title">包名哨兵 · 监控中</string>
+    <string name="notif_title_degraded">包名哨兵 · 特权后端未就绪</string>
+    <string name="notif_idle">已启动，等待首次扫描</string>
+    <string name="notif_running">监控中 · 已卸载 %1$d 个</string>
+    <string name="notif_degraded">无可用后端 · 本轮 %1$d 个命中未处理（已卸载 %2$d 个）</string>
+    <string name="notif_alert_title">命中规则但未执行卸载：缺少特权后端</string>
+    <string name="notif_alert_text">本轮有 %1$d 个包命中规则，但当前没有可用的特权后端（%2$s），未执行卸载。点击前往授权。</string>
+    <string name="action_stop_monitor">停止</string>
+    <string name="action_grant">前往授权</string>
+
+    <!-- 日志 -->
+    <string name="log_monitor_started">监控已启动</string>
+    <string name="log_monitor_stopped">监控已停止</string>
+    <string name="log_dry_run">演练模式：命中规则，未执行卸载</string>
+    <string name="log_protected">命中规则，但该包位于保护名单（系统 / 特权组件），已跳过</string>
+    <string name="log_self">命中本应用自身，已跳过</string>
+    <string name="log_rule_disabled">命中规则 %1$s，但该规则已停用</string>
+
+    <!-- 触发原因 -->
+    <string name="reason_poll">定时轮询</string>
+    <string name="reason_restart">服务重启后的补充扫描</string>
+</resources>

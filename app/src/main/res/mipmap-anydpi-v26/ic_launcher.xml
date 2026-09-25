@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  图标资源由 tools/make_icons.py 从 design/ic_launcher_source.png 生成：
+  前景层是「源图缩到 75% 居中」，底色是白色（取自源图边缘），拼起来看不出接缝，
+  同时保证符号落在自适应图标的可见安全区里，不会被系统遮罩切到。
+-->
+<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+    <background android:drawable="@color/ic_launcher_background" />
+    <foreground android:drawable="@mipmap/ic_launcher_foreground" />
+    <monochrome android:drawable="@mipmap/ic_launcher_monochrome" />
+</adaptive-icon>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Compose 自己画全部界面，主题只负责窗口底色和状态栏，不用 AppCompat/Material 库的主题 -->
+    <style name="Theme.Sentinel" parent="@android:style/Theme.Material.NoActionBar">
+        <item name="android:windowBackground">#0F1116</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+</resources>
