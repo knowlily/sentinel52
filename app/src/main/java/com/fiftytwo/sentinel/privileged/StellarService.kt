@@ -8,7 +8,7 @@ import roro.stellar.StellarBinderWrapper
 import roro.stellar.StellarHelper
 
 /**
- * Stellar 后端（Shizuku 分支），对接见仓库根 `INTEGRATION_GUIDE.md`。
+ * Stellar 后端（Shizuku 分支），对接见 `docs/third-party/Stellar-API-INTEGRATION_GUIDE.md`。
  *
  * Stellar 的特权身份是 shell（2000）/ root，起进程跑 `pm uninstall` 就能静默卸载。
  * 这一层只做「探测 / 授权 / 转发调用」，判定逻辑在 `core/PrivilegedStateResolver`（有单测），
